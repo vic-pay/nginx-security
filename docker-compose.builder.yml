@@ -1,0 +1,17 @@
+services:
+  builder:
+    image: alpine:3.17.3
+    container_name: builder
+    hostname:       builder
+    entrypoint: /bin/sh /usr/share/bin/builder.sh
+    environment:
+      NGINX_VERSION: 1.23.3
+    volumes:
+      - type: bind
+        source: ./builder.sh
+        target:  /usr/share/bin/builder.sh
+        read_only: true
+      - type: bind
+        source: ./modules
+        target:  /etc/nginx/modules/
+        read_only: false
