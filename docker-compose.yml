@@ -7,22 +7,49 @@ services:
       METRICS_ALLOW_FROM: 0.0.0.0/0
     volumes:
       - type: bind
-        source: ./configs/nginx.conf
+        source: ./configs/nginx/nginx.conf
         target:  /etc/nginx/templates/nginx.conf.template
         read_only: true
       - type: bind
-        source: ./configs/conf.d/default.conf
+        source: ./configs/nginx/conf.d/default.conf
         target:  /etc/nginx/templates/conf.d/default.conf.template
         read_only: true
       - type: bind
-        source: ./configs/includes/location_common.conf
+        source: ./configs/nginx/includes/location_common.conf
         target:  /etc/nginx/templates/includes/location_common.conf.template
         read_only: true
       - type: bind
         source: ./modules/ngx_http_vhost_traffic_status_module.so
         target:  /usr/lib/nginx/modules/ngx_http_vhost_traffic_status_module.so
         read_only: true
-    ports:
-      - 80:80
-      - 443:443
+    networks: ["modsecurity"]
+    ports:    ["80:80", "443:443"]
 
+  telegraf:
+    image: telegraf:1.24.4-alpine
+    container_name: telegraf
+    hostname:       telegraf
+    volumes:
+      - type: bind
+        source: ./configs/telegraf/telegraf.conf
+        target:  /etc/telegraf/telegraf.conf
+        read_only: true
+    networks: ["modsecurity"]
+    ports:    ["9273:9273"]
+
+  graphite:
+    image: graphiteapp/graphite-statsd:1.1.10-4
+    container_name: graphite
+    hostname:       graphite
+    networks: ["modsecurity"]
+    ports:
+      - 8080:80
+      - 2003-2004:2003-2004
+      - 2023-2024:2023-2024
+      - 8125:8125/udp
+      - 8126:8126
+
+networks:
+  modsecurity:
+    name:   modsecurity
+    driver: bridge
