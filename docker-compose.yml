@@ -1,0 +1,28 @@
+services:
+  modsecurity:
+    image: owasp/modsecurity-crs:3.3.4-nginx-alpine-202304160904
+    container_name: modsecurity
+    hostname:       modsecurity
+    environment:
+      METRICS_ALLOW_FROM: 0.0.0.0/0
+    volumes:
+      - type: bind
+        source: ./configs/nginx.conf
+        target:  /etc/nginx/templates/nginx.conf.template
+        read_only: true
+      - type: bind
+        source: ./configs/conf.d/default.conf
+        target:  /etc/nginx/templates/conf.d/default.conf.template
+        read_only: true
+      - type: bind
+        source: ./configs/includes/location_common.conf
+        target:  /etc/nginx/templates/includes/location_common.conf.template
+        read_only: true
+      - type: bind
+        source: ./modules/ngx_http_vhost_traffic_status_module.so
+        target:  /usr/lib/nginx/modules/ngx_http_vhost_traffic_status_module.so
+        read_only: true
+    ports:
+      - 80:80
+      - 443:443
+

@@ -5,7 +5,7 @@ services:
     hostname:       builder
     entrypoint: /bin/sh /usr/share/bin/builder.sh
     environment:
-      NGINX_VERSION: 1.23.3
+      NGINX_VERSION: 1.22.1
     volumes:
       - type: bind
         source: ./builder.sh

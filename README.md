@@ -16,12 +16,12 @@ Build module:
     docker-compose -f docker-compose.builder.yml up --force-recreate
     docker-compose -f docker-compose.builder.yml down
 
-Run NGINX container:
+Run NGINX Modsecurity container:
 
-    docker-compose -f docker-compose.nginx.yml up --force-recreate
+    docker-compose up --force-recreate
 
 Open `http://127.0.0.1/status` in browser
 
 Stop NGINX container:
 
-    docker-compose -f docker-compose.nginx.yml down
+    docker-compose down
