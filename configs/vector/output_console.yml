@@ -1,0 +1,9 @@
+# https://vector.dev/docs/reference/configuration/sinks/console/
+
+sinks:
+  output_console:
+    type: console
+    inputs:
+      - "input_kafka_modsecurity"
+    encoding:
+      codec: "json"

@@ -25,3 +25,13 @@ Open `http://127.0.0.1/status` in browser
 Stop NGINX container:
 
     docker-compose down
+
+## Logging
+
+Deploy log parser:
+
+    docker-compose -f docker-compose.logs.yml up -d
+
+    docker logs vector-modsecurity -f -n 100 
+
+    docker-compose -f docker-compose.logs.yml down

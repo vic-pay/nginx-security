@@ -1,0 +1,56 @@
+services: 
+
+  filebeat-modsecurity:
+    image: elastic/filebeat:7.17.9
+    container_name: filebeat-modsecurity
+    hostname:       filebeat-modsecurity
+    volumes:
+      - type: bind
+        source: ./configs/filebeat/filebeat.yml
+        target:  /usr/share/filebeat/filebeat.yml
+        read_only: true
+      - type: bind
+        source: ./logs
+        target: /var/log/modsecurity
+        read_only: true
+    command:    ["--strict.perms=false"]
+    depends_on: ["kafka-modsecurity"]
+    networks:   ["modsecurity-logs"]
+
+  zookeeper-modsecurity:
+    image: docker.io/bitnami/zookeeper:3.8
+    container_name: zookeeper-modsecurity
+    hostname:       zookeeper-modsecurity
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks: ["modsecurity-logs"]
+    ports:    ["2181:2181"]
+
+  kafka-modsecurity:
+    image: docker.io/bitnami/kafka:3.4
+    container_name: kafka-modsecurity
+    hostname:       kafka-modsecurity
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper-modsecurity:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    networks: ["modsecurity-logs"]
+    ports:    ["9092:9092"]
+    depends_on: ["zookeeper-modsecurity"]
+
+  vector-modsecurity:
+    image: timberio/vector:0.29.1-alpine
+    container_name: vector-modsecurity
+    hostname:       vector-modsecurity
+    volumes:
+    - type: bind
+      source: ./configs/vector
+      target: /etc/vector/config
+      read_only: true
+    command: ['-c', '/etc/vector/config/*.yml']
+    networks:   ["modsecurity-logs"]
+    depends_on: ["kafka-modsecurity"]
+
+networks:
+  modsecurity-logs:
+    name: modsecurity-logs
+    driver: bridge
