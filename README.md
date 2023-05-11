@@ -8,8 +8,8 @@ Usefull for metrics
 Execute commands in repository directory
 Preparation:
 
-    mkdir modules
-    chmod 777 modules
+    mkdir modules logs
+    chmod 777 modules logs
 
 Build module:
 

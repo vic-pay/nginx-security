@@ -5,6 +5,13 @@ services:
     hostname:       modsecurity
     environment:
       METRICS_ALLOW_FROM: 0.0.0.0/0
+      # ModSecurity ENV Variables https://hub.docker.com/r/owasp/modsecurity-crs
+      MODSEC_AUDIT_ENGINE: RelevantOnly
+      MODSEC_AUDIT_LOG: /var/log/modsecurity/audit/concurent.log
+      MODSEC_AUDIT_LOG_FORMAT: JSON
+      MODSEC_AUDIT_LOG_TYPE: Serial
+      MODSEC_AUDIT_LOG_PARTS: ABIJDEFHZ
+      MODSEC_AUDIT_STORAGE: /var/log/modsecurity/audit
     volumes:
       - type: bind
         source: ./configs/nginx/nginx.conf
@@ -22,6 +29,10 @@ services:
         source: ./modules/ngx_http_vhost_traffic_status_module.so
         target:  /usr/lib/nginx/modules/ngx_http_vhost_traffic_status_module.so
         read_only: true
+      - type: bind
+        source: ./logs
+        target:  /var/log/modsecurity/audit
+        read_only: false
     networks: ["modsecurity"]
     ports:    ["80:80", "443:443"]
 
