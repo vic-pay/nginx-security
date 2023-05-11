@@ -40,11 +40,24 @@ services:
     image: telegraf:1.24.4-alpine
     container_name: telegraf
     hostname:       telegraf
+    environment:
+      HOST_ETC:  /hostfs/etc
+      HOST_PROC: /hostfs/proc
+      HOST_SYS:  /hostfs/sys
+      HOST_VAR:  /hostfs/var
+      HOST_RUN:  /hostfs/run
+      HOST_MOUNT_PREFIX: /hostfs
     volumes:
       - type: bind
         source: ./configs/telegraf/telegraf.conf
         target:  /etc/telegraf/telegraf.conf
         read_only: true
+      - type: bind
+        source: /var/run
+        target: /hostfs/var/run
+        read_only: true
+    user: root
+    entrypoint: /usr/bin/telegraf
     networks: ["modsecurity"]
     ports:    ["9273:9273"]
 
