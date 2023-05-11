@@ -1,0 +1,75 @@
+{
+    "transaction": {
+        "client_ip": "172.21.0.1",
+        "time_stamp": "Thu May 11 11:03:08 2023",
+        "server_id": "f6d78c2758d49aae5c36f2554e66b0e0f28d6595",
+        "client_port": 56388,
+        "host_ip": "172.21.0.3",
+        "host_port": 80,
+        "unique_id": "168380298848.886169",
+        "request": {
+            "method": "GET",
+            "http_version": 1.1,
+            "uri": "/",
+            "headers": {
+                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 OPR/98.0.0.0",
+                "Sec-Fetch-Site": "none",
+                "sec-ch-ua-platform": ""Linux"",
+                "Upgrade-Insecure-Requests": "1",
+                "If-None-Match": ""63806cf1-267"",
+                "sec-ch-ua-mobile": "?0",
+                "If-Modified-Since": "Fri, 25 Nov 2022 07:21:21 GMT",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+                "Cache-Control": "max-age=0",
+                "sec-ch-ua": ""Chromium";v="112", "Not_A Brand";v="24", "Opera";v="98"",
+                "Sec-Fetch-User": "?1",
+                "Sec-Fetch-Mode": "navigate",
+                "Connection": "keep-alive",
+                "Host": "127.0.0.1",
+                "Sec-Fetch-Dest": "document",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "ru,en-US;q=0.9,en;q=0.8"
+            }
+        },
+        "response": {
+            "body": "",
+            "http_code": 304,
+            "headers": {
+                "Server": "nginx/1.22.1",
+                "Date": "Thu, 11 May 2023 11:03:08 GMT",
+                "Last-Modified": "Fri, 25 Nov 2022 07:21:21 GMT",
+                "Connection": "keep-alive",
+                "ETag": ""63806cf1-267""
+            }
+        },
+        "producer": {
+            "modsecurity": "ModSecurity v3.0.9 (Linux)",
+            "connector": "ModSecurity-nginx v1.0.3",
+            "secrules_engine": "Enabled",
+            "components": [
+                "OWASP_CRS/3.3.4""]},"messages":[{"message":"Host header is a numeric IP address","details":{"match":"Matched "Operator `Rx' with parameter `^[d.:]+$' against variable `REQUEST_HEADERS:Host' (Value: `127.0.0.1' )",
+                "reference": "o0,9v21,9",
+                "ruleId": "920350",
+                "file": "/etc/modsecurity.d/owasp-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+                "lineNumber": "719",
+                "data": "127.0.0.1",
+                "severity": "4",
+                "ver": "OWASP_CRS/3.3.4",
+                "rev": "",
+                "tags": [
+                    "modsecurity",
+                    "application-multi",
+                    "language-multi",
+                    "platform-multi",
+                    "attack-protocol",
+                    "paranoia-level/1",
+                    "OWASP_CRS",
+                    "capec/1000/210/272",
+                    "PCI/6.5.10"
+                ],
+                "maturity": "0",
+                "accuracy": "0"
+            }
+        }
+    ]
+}

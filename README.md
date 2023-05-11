@@ -35,3 +35,5 @@ Deploy log parser:
     docker logs vector-modsecurity -f -n 100 
 
     docker-compose -f docker-compose.logs.yml down
+
+[Logs examples](log-examples)
