@@ -1,0 +1,22 @@
+services: 
+
+  vector-modsecurity:
+    image: timberio/vector:0.29.1-alpine
+    container_name: vector-modsecurity
+    hostname:       vector-modsecurity
+    volumes:
+    - type: bind
+      source: ./configs/vector-file
+      target: /etc/vector/config
+      read_only: true
+    - type: bind
+      source: ./logs
+      target: /mnt/logs
+      read_only: true
+    command:    ['-c', '/etc/vector/config/*.yml']
+    networks:   ['modsecurity-logs']
+
+networks:
+  modsecurity-logs:
+    name: modsecurity-logs
+    driver: bridge

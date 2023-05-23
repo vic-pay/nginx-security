@@ -1,0 +1,27 @@
+sources:
+  source_file_modsecurity:
+    type: file
+    include:
+      - /mnt/logs/*.log
+
+
+transforms:
+  transform_modsecurity:
+    inputs: 
+      - source_file_modsecurity
+    type: remap
+    drop_on_abort: true
+    source: |-
+      . = parse_json!(.message)
+      .transaction.request.headers = encode_json(.transaction.request.headers)
+      .transaction.response.headers = encode_json(.transaction.response.headers)
+      # insert here
+      . = unnest!(.transaction.messages)
+
+sinks:
+  sink_console_modsecurity:
+    inputs:
+      - transform_modsecurity
+    type: console
+    encoding:
+      codec: json

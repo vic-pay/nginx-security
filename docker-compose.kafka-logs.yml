@@ -43,7 +43,7 @@ services:
     hostname:       vector-modsecurity
     volumes:
     - type: bind
-      source: ./configs/vector
+      source: ./configs/vector-kafka
       target: /etc/vector/config
       read_only: true
     command: ['-c', '/etc/vector/config/*.yml']
