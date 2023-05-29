@@ -1,14 +1,19 @@
-sources:
-  source_file_modsecurity:
-    type: file
-    include:
-      - /mnt/logs/*.log
+# https://vector.dev/docs/reference/configuration/sinks/console/
 
+sources:
+  input_kafka_modsecurity:
+    type: kafka
+    bootstrap_servers: kafka-modsecurity:9092
+    group_id: vector
+    topics:
+      - modsecurity_audit
+    decoding:
+      codec: json
 
 transforms:
   transform_modsecurity_split:
     inputs: 
-      - source_file_modsecurity
+      - input_kafka_modsecurity
     type: remap
     drop_on_abort: true
     source: |-
@@ -65,9 +70,9 @@ transforms:
       del(.transaction)
 
 sinks:
-  sink_console_modsecurity:
-    inputs:
-      - transform_modsecurity_ecs
+  output_console:
     type: console
+    inputs:
+      - "transform_modsecurity_ecs"
     encoding:
-      codec: json
+      codec: "json"
